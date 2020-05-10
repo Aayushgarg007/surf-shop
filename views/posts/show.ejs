@@ -1,0 +1,14 @@
+<h1><%= post.title %> </h1>
+<div>Price: <%= post.price %> </div>
+<div><%= post.description %> </div>
+<div><%= post.location %> </div>
+<div>
+  <a href="/posts/<%= post._id %>/edit">
+    <button>Edit Post</button>
+  </a>
+</div>
+<div>
+  <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+    <button>Delete</button>
+  </form>
+</div>
