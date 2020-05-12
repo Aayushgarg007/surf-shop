@@ -22,7 +22,13 @@ router.get('/', asyncErrorHandler(postIndex));
 router.get('/new', postNew);
 
 /* POST posts create /posts */
-router.post('/', asyncErrorHandler(postCreate));
+router.post('/', upload.array('images', 4), asyncErrorHandler(postCreate));
+/*  middleware - first argument is name of input for images coming from our form
+               - second argument is max number of images someone can upload from the form
+  
+  now bcz of this middleware when we get to postCreate method we get access to the files
+  that was uploaded from the form via req.files object which is an array
+*/
 
 /* GET posts show /posts/:id */
 router.get('/:id', asyncErrorHandler(postShow));
