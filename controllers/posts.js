@@ -72,13 +72,17 @@ module.exports = {
     post.location = req.body.post.location;
     // handle any deletion of existing images
     // handle upload of any new images
-    post.save();
+    await post.save();
     res.redirect(`/posts/${post._id}`);
   },
 
   // posts Delete
   async postDestroy(req, res, next) {
-    await Post.findByIdAndDelete(req.params.id);
+    let post = await Post.findById(req.params.id);
+    for(const image of post.images) {
+      await cloudinary.v2.uploader.destroy(image.public_id);
+    }
+    await post.remove();
     res.redirect('/posts');
   }
 }
