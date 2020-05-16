@@ -12,12 +12,12 @@ module.exports = {
   // Posts Index
   async postIndex(req, res, next) {
     let posts = await Post.find();
-    res.render('posts/index', { posts });
+    res.render('posts/index', { posts, title: 'Post Index' });
   },
 
   // Posts New
   postNew(req, res, next) {
-    res.render('posts/new');
+    res.render('posts/new', { title: 'Post New' });
   },
 
   // posts Create
@@ -45,13 +45,13 @@ module.exports = {
   // posts Show
   async postShow(req, res, next) {
     let post = await Post.findById(req.params.id);
-    res.render('posts/show', { post });
+    res.render('posts/show', { post, title: 'Post Show' });
   },
 
   // posts Edit
   async postEdit(req, res, next) {
     let post = await Post.findById(req.params.id);
-    res.render('posts/edit', { post });
+    res.render('posts/edit', { post, title: 'Post Edit' });
   },
 
   // posts Update
