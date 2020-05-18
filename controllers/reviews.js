@@ -21,7 +21,9 @@ module.exports = {
 
   // Reviews Update
   async reviewUpdate(req, res, next) {
-    
+    await Review.findByIdAndUpdate(req.params.review_id, req.body.review);
+    req.session.success = 'Review updated successfully';
+    res.redirect(`/posts/${req.params.id}`);
   },
 
   // Reviews Delete
