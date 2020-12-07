@@ -4,7 +4,7 @@ var map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/light-v10',
   center: post.coordinates,
-  zoom: 5
+  zoom: 3
 });
 
 // create a HTML element for our post location/marker
@@ -15,7 +15,7 @@ el.className = 'marker';
 new mapboxgl.Marker(el)
   .setLngLat(post.coordinates)
   .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-    .setHTML('<h3>' + post.title + '</h3><p>' + post.location + '</p>'))
+  .setHTML('<h3>' + post.title + '</h3><p>' + post.location + '</p>'))
   .addTo(map);
 
 // toogle edit review form

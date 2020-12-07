@@ -1,0 +1,24 @@
+dotenv is a package used to hide some secret things in you environment variable.
+This is important during deploying or putting the project on Github
+
+locus is for debugging purposes
+
+mergeParams: true
+this is passed as property in an object in router.
+This will allow to get the url mergeParams
+
+bcz of plugin with passportLocalMongoose it will automatically use passport local stratergy 
+where username and password is already declared
+but you can specify the username and password field
+
+morgan - package used to log http request on server terminal
+
+cloudinary allow us to store images in cloud
+
+multer- package for upload files
+
+mapbox - for using map in the app
+
+ejs-mate -> package for including partials
+  This works a little bit differently
+  check github repo of ejs-mate

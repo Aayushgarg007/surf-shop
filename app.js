@@ -65,7 +65,6 @@ app.use(function(req, res, next){
   delete req.session.success;
   res.locals.error = req.session.error || '';
   delete req.session.error;
-  res.locals.error
   next();
 });
 
