@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Review = require('./review');
 
 const PostSchema = new Schema({
   title: String,
@@ -25,6 +26,15 @@ const PostSchema = new Schema({
   ]
 });
 
+// this is pre hook middleware
+// whenever Post.remove() is called this function is also called first
+PostSchema.pre('remove', async function() {
+  await Review.remove({
+    _id: {
+      $in: this.reviews
+    }
+  });
+});
 
 module.exports = mongoose.model('Post', PostSchema);
 

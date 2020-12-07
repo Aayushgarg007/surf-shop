@@ -16,7 +16,7 @@ module.exports = {
     }
     // creat a review
     req.body.review.author = req.user._id;
-    let review = new Review.create(req.body.review);
+    let review = await Review.create(req.body.review);
     // assign review to post
     post.reviews.push(review);
     // save the post
