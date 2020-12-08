@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const createError = require('http-errors');
 const express = require('express');
 const engine = require('ejs-mate');
@@ -11,6 +12,8 @@ const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+// const seedPosts = require('./seeds');
+// seedPosts();
 
 // require routes
 const indexRouter = require('./routes/index');
