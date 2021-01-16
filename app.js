@@ -36,7 +36,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -44,7 +43,7 @@ app.use(methodOverride('_method'));
 
 // Configure passport and sessions
 app.use(session({
-  secret: 'hang ten dude!',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }));
@@ -58,12 +57,12 @@ passport.deserializeUser(User.deserializeUser());
 
 // set local variables middleware
 app.use(function(req, res, next){
-  req.user = {
-    // '_id' : '5ec1ed3613730335b86b27af',
-    // '_id' : '5fce9189806a840164ea8f7a',
-    '_id' : '5fcfeb37dd50382c344107a7',
-    'username' : 'aayush'
-  }
+  // req.user = {
+  //   '_id' : '5ec1ed3613730335b86b27af',
+  //   '_id' : '5fce9189806a840164ea8f7a',
+  //   '_id' : '5fcfeb37dd50382c344107a7',
+  //   'username' : 'aayush'
+  // }
   res.locals.currentUser = req.user;
   res.locals.title = "Surf Shop";
   res.locals.success = req.session.success || '';
