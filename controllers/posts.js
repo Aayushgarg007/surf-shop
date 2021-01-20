@@ -1,23 +1,26 @@
 const Post = require('../models/post');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_PUBLIC_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 const cloudinary = require('cloudinary');
 cloudinary.config({
   cloud_name: 'detxvbsr7',
   api_key: '452761124969478',
   api_secret: process.env.CLOUDINARY_SECRET
-})
+});
+
 
 module.exports = {
   // Posts Index
   async postIndex(req, res, next) {
     let posts = await Post.paginate({}, {
       page: req.query.page || 1,
-      limit: 10
+      limit: 10,
+      sort: '-_id'
     });
     // console.log(posts);
     posts.page = Number(posts.page);
-    res.render('posts/index', { posts, title: 'Post Index' });
+    res.render('posts/index', { posts, mapBoxToken, title: 'Post Index' });
   },
 
   // Posts New
@@ -41,8 +44,9 @@ module.exports = {
         limit: 1
       })
       .send();
-    req.body.post.coordinates = response.body.features[0].geometry.coordinates;
+    req.body.post.geometry = response.body.features[0].geometry;
     let post = new Post(req.body.post);
+    post.properties.description = `<strong><a href="/posts/${post._id}">${post.title}</a></strong><p>${post.location}</p><p>${post.description.substring(0, 20)}...</p>`;
     await post.save();
     req.session.success = 'Post created Successfully!';
     res.redirect(`/posts/${post._id}`);
@@ -59,7 +63,6 @@ module.exports = {
       }
     });
     const floorRating = post.calculateAvgRating();
-    let mapBoxToken = process.env.MAPBOX_PUBLIC_TOKEN;
     res.render('posts/show', { post, mapBoxToken, floorRating, title: 'Post Show' });
   },
 
@@ -99,7 +102,7 @@ module.exports = {
         limit: 1
       })
       .send();
-      post.coordinates = response.body.features[0].geometry.coordinates;
+      post.geometry = response.body.features[0].geometry;
       post.location = req.body.post.location;
     }
 
@@ -107,6 +110,7 @@ module.exports = {
     post.title = req.body.post.title;
     post.description = req.body.post.description;
     post.price = req.body.post.price;
+    post.properties.description = `<strong><a href="/posts/${post._id}">${post.title}</a></strong><p>${post.location}</p><p>${post.description.substring(0, 20)}...</p>`;
 
     await post.save();
     res.redirect(`/posts/${post._id}`);
